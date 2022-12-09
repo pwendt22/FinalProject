@@ -23,15 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
-@RequestMapping("/userLaundry")
+@RequestMapping("/user")
 public class UserController {
-    /*
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
-    */
     @Autowired
     private RoleService roleService;
 
@@ -62,8 +56,8 @@ public class UserController {
             redirectURL = "/auth/admin/admin-index";
         } else if (isAuthorized(userLaundry, "USER")) {
             redirectURL = "/auth/user/user-index";
-        } else if (isAuthorized(userLaundry, "BIBLIOTECARIO")) {
-            redirectURL = "/auth/biblio/biblio-index";
+        } else if (isAuthorized(userLaundry, "STAFF")) {
+            redirectURL = "/auth/staff/staff-index";
         }
         return redirectURL;
     }
@@ -71,45 +65,47 @@ public class UserController {
     @GetMapping("/new")
     public String addUser(Model model) {
         model.addAttribute("user", new UserLaundry());
-        return "/publica-criar-usuario";
+        return "/register";
     }
 
     @PostMapping("/save")
     public String saveUser(@Valid UserLaundry userLaundry, BindingResult result,
                            Model model, RedirectAttributes attributes) {
         if (result.hasErrors()) {
-            return "/publica-criar-usuario";
+            return "/register";
         }
 
         UserLaundry usr = userService.searchUserByLogin(userLaundry.getLogin());
         if (usr != null) {
             model.addAttribute("Found Login", "Login is already exist");
-            return "/publica-criar-usuario";
+            return "register";
         }
+
+        userLaundry.setEnable(true);
 
         userService.saveUser(userLaundry);
         attributes.addFlashAttribute("message", "User added!");
-        return "redirect:/userLaundry/new";
+        return "redirect:/user/new";
     }
 
-    @RequestMapping("/admin/listar")
+    @RequestMapping("/admin/list")
     public String userList(Model model) {
         List<UserLaundry> list = userService.userList();
         model.addAttribute("users", list);
-        return "/auth/admin/admin-listar-usuario";
+        return "/auth/admin/admin-user-list";
     }
 
-    @GetMapping("/admin/apagar/{id}")
+    @GetMapping("/admin/delete/{id}")
     public String deleteUser(@PathVariable("id") long id, Model model) {
         userService.deleteUserId(id);
-        return "redirect:/userLaundry/admin/list";
+        return "redirect:/user/admin/list";
     }
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable("id") long id, Model model) {
         UserLaundry userLaundry = userService.searchUserById(id);
         model.addAttribute("user", userLaundry);
-        return "/auth/user/user-alterar-usuario";
+        return "/auth/user/user-alt-user";
     }
 
     @PostMapping("/edit/{id}")
@@ -117,10 +113,10 @@ public class UserController {
                            @Valid UserLaundry userLaundry, BindingResult result) {
         if (result.hasErrors()) {
             userLaundry.setId(id);
-            return "/auth/user/user-alterar-usuario";
+            return "/auth/user/user-alt-user";
         }
         userService.altUser(userLaundry);
-        return "redirect:/userLaundry/admin/list";
+        return "redirect:/user/admin/list";
     }
 
     @GetMapping("/editRole/{id}")
@@ -128,9 +124,9 @@ public class UserController {
         UserLaundry userLaundry = userService.searchUserById(id);
         model.addAttribute("user", userLaundry);
         List<Role> roles = roleService.roleList();
-        model.addAttribute("rolelust", roles);
+        model.addAttribute("roleList", roles);
 
-        return "/auth/admin/admin-editar-papel-usuario";
+        return "/auth/admin/admin-edit-user-role";
     }
 
     @PostMapping("/editRole/{id}")
@@ -141,10 +137,10 @@ public class UserController {
         if (pps == null) {
             userLaundry.setId(idUser);
             attributes.addFlashAttribute("message", "At least one role need to be assigned.");
-            return "redirect:/userLaundry/editRole/"+idUser;
+            return "redirect:/user/editRole/"+idUser;
         } else {
             userService.assignRoleToUser(idUser, pps, userLaundry.isEnable());
         }
-        return "redirect:/userLaundry/admin/list";
+        return "redirect:/user/admin/list";
     }
 }

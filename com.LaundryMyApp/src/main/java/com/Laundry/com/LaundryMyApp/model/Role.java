@@ -24,7 +24,7 @@ public class Role {
     public Role() {
     }
 
-    public Role(String papel) {
+    public Role(String role) {
         super();
         this.role = role;
     }

@@ -9,8 +9,8 @@ public class HomeController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("msnBemVindo", "Bem-vindo à biblioteca");
-        return "publica-index";
+        model.addAttribute("msnBemVindo", "Welcome to the Laundry Online!");
+        return "index";
     }
 
     @RequestMapping("/login")

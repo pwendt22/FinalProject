@@ -26,8 +26,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
         List<Role> roles = userLaundry.getRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        for(Role papel: roles) {
-            SimpleGrantedAuthority sga = new SimpleGrantedAuthority(papel.getRole());
+        for(Role role: roles) {
+            SimpleGrantedAuthority sga = new SimpleGrantedAuthority(role.getRole());
             authorities.add(sga);
         }
         return authorities;
@@ -69,7 +69,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
         return userLaundry.isEnable();
     }
 
-    public String getNome() {
+    public String getName() {
         return userLaundry.getName();
     }
 

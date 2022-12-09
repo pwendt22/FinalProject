@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         Role role = roleService.searchRole("USER");
         List<Role> roles = new ArrayList<Role>();
         roles.add(role);
-        userLaundry.setRoles(roles); // set the role with the user
+        userLaundry.setRoles(roles); // setting the user's role
 
         String criptPassword = criptografia.encode(userLaundry.getPassword());
         userLaundry.setPassword(criptPassword);

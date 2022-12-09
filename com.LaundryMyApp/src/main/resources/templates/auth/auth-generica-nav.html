@@ -9,10 +9,10 @@
   			<div th:replace="auth/admin/admin-nav :: nav"></div>
 		</div>
 		<div th:unless="${ #authorization.expression('hasAuthority(''ADMIN'')')}">  			
-  			<div th:if="${ #authorization.expression('hasAuthority(''BIBLIOTECARIO'')')}">
-	  			<div th:replace="auth/biblio/biblio-nav :: nav"></div>
+  			<div th:if="${ #authorization.expression('hasAuthority(''STAFF'')')}">
+	  			<div th:replace="auth/staff/staff-nav :: nav"></div>
 			</div>
-			<div th:unless="${ #authorization.expression('hasAuthority(''BIBLIOTECARIO'')')}">
+			<div th:unless="${ #authorization.expression('hasAuthority(''STAFF'')')}">
 	  			<div th:if="${ #authorization.expression('hasAuthority(''USER'')')}">
 		  			<div th:replace="auth/user/user-nav :: nav"></div>
 				</div>
@@ -20,7 +20,7 @@
 		</div>
 		
 		<div sec:authorize="!isAuthenticated()">
-            <div th:replace="fragments/publica-nav :: nav"></div>
+            <div th:replace="fragments/main-nav :: nav"></div>
         </div>	
 	</div>
 </body>

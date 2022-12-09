@@ -19,7 +19,7 @@ public class SucessLogin extends SavedRequestAwareAuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
 
-        String redirectURL = "/usuario/index";
+        String redirectURL = "/user/index";
         response.sendRedirect(redirectURL);
     }
 

@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ViewConf implements WebMvcConfigurer {
 
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/auth/auth-acesso-negado").setViewName("/auth/auth-acesso-negado");
+        registry.addViewController("/auth/auth-acesso-negado").setViewName("auth-denied-acess");
     }
 
 }
